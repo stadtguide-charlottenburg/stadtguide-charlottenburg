@@ -700,6 +700,131 @@ if (typeof L === "undefined") {
     .card-addr, .card-note, .sec-count{ color: #7A6F63 !important; }
   }
   html{ background: var(--bg); }
+
+/* ============================================================
+   SCANDIC ENHANCEMENT LAYER  (additive — overrides by source order)
+   ============================================================ */
+:root{
+  --sh-sm: 0 1px 2px rgba(43,36,32,.05);
+  --sh-md: 0 8px 26px rgba(43,36,32,.10);
+  --sh-lg: 0 20px 54px rgba(43,36,32,.18);
+  --r-lg: 16px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+::selection{ background: var(--peach); color: var(--red-dark); }
+html{ scroll-padding-top: 12px; }
+
+/* ---- scroll progress bar ---- */
+.scroll-progress{ position: fixed; top:0; left:0; right:0; height:3px; z-index:54; pointer-events:none; background:transparent; }
+.scroll-progress-fill{ height:100%; width:100%; transform:scaleX(0); transform-origin:left center;
+  background:linear-gradient(90deg, var(--red), #E8566C); box-shadow:0 0 10px rgba(205,8,34,.45); transition:transform .1s linear; }
+body.lang-ar .scroll-progress-fill{ transform-origin:right center; }
+
+/* ---- hero glow-up ---- */
+.hero{
+  position:relative;
+  background:
+    radial-gradient(130% 90% at 90% -20%, rgba(243,220,201,.60) 0%, rgba(243,220,201,0) 58%),
+    linear-gradient(180deg, #FFFFFF 0%, #FFFCF9 100%);
+  border-bottom:none;
+  padding:52px 24px 34px;
+}
+.hero::before{ content:""; position:absolute; inset:0; pointer-events:none; opacity:.55;
+  background-image:radial-gradient(rgba(122,111,99,.16) 1px, transparent 1.5px);
+  background-size:22px 22px;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%, transparent 80%);
+          mask-image:linear-gradient(180deg,#000 0%, transparent 80%); }
+.hero::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:3px;
+  background:linear-gradient(90deg, var(--red) 0%, var(--red) 32%, rgba(205,8,34,.12) 100%); }
+.hero > *{ position:relative; z-index:1; }
+.eyebrow{ display:flex; align-items:center; gap:9px; }
+.eyebrow::before{ content:""; width:22px; height:2px; border-radius:2px; background:var(--red); flex:none; }
+body.lang-ar .eyebrow{ flex-direction:row-reverse; }
+h1{ font-size:clamp(29px, 8.4vw, 38px); letter-spacing:-.012em; line-height:1.12; max-width:340px; overflow-wrap:break-word; }
+.sub{ font-size:15.5px; }
+.hero .eyebrow, .hero h1, .hero .sub, .hero .hero-stats{ animation:heroIn .7s var(--ease) both; }
+.hero h1{ animation-delay:.05s; } .hero .sub{ animation-delay:.11s; } .hero .hero-stats{ animation-delay:.17s; }
+@keyframes heroIn{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:none;} }
+
+/* hero stat pills */
+.hero-stats{ display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+.hstat{ display:flex; align-items:center; gap:9px; background:rgba(255,255,255,.72); border:1px solid var(--line);
+  border-radius:13px; padding:9px 14px 9px 12px; box-shadow:var(--sh-sm); backdrop-filter:blur(3px); }
+.hnum{ font-family:'Poppins',sans-serif; font-weight:800; font-size:21px; color:var(--red); line-height:1; font-variant-numeric:tabular-nums; }
+.hlab{ font-size:11px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:var(--text-dim); line-height:1.15; }
+.hstat .hicon{ display:flex; width:21px; height:21px; color:var(--red); }
+.hstat .hicon svg{ width:21px; height:21px; }
+
+/* ---- sticky filters: shadow when stuck ---- */
+.filters{ transition:box-shadow .25s var(--ease), background .25s var(--ease); }
+.filters.stuck{ box-shadow:0 8px 24px rgba(43,36,32,.11); background:rgba(250,246,241,.9); }
+
+/* ---- filter buttons + map chips ---- */
+.filter-btn{ transition:all .18s var(--ease); }
+.filter-btn:hover{ border-color:var(--red); color:var(--red); transform:translateY(-1px); }
+.filter-btn.active{ box-shadow:0 5px 14px rgba(205,8,34,.24); }
+.dist-chip{ transition:all .18s var(--ease); }
+.dist-chip:hover{ transform:translateY(-1px); border-color:var(--red); }
+.dist-chip.active{ box-shadow:0 5px 14px rgba(205,8,34,.20); }
+
+/* ---- map frame ---- */
+#berlinMap{ box-shadow:var(--sh-md); }
+
+/* ---- cards: refined ---- */
+.card{ position:relative; overflow:hidden; border-radius:var(--r-lg);
+  transition:transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease); }
+.card:hover{ transform:translateY(-3px); box-shadow:var(--sh-md); }
+.card-icon{ transition:transform .22s var(--ease); }
+.card:hover .card-icon{ transform:scale(1.06) rotate(-3deg); }
+.card-link-hint{ transition:transform .22s var(--ease); }
+.card:hover .card-link-hint{ transform:translateX(3px); }
+body.lang-ar .card:hover .card-link-hint{ transform:translateX(-3px); }
+.card-name{ transition:color .18s var(--ease); }
+
+/* ---- section head polish ---- */
+.section-num{ background:rgba(205,8,34,.10); padding:3px 9px; border-radius:8px; font-size:13px; }
+.sec-chev{ transition:transform .22s var(--ease), color .2s; }
+.section-title{ letter-spacing:-.008em; }
+
+/* ---- reveal on scroll (safe: gated by body.reveal-on) ---- */
+.reveal-on main > section > .section-head{ opacity:0; transform:translateY(14px);
+  transition:opacity .6s var(--ease), transform .6s var(--ease); }
+.reveal-on main > section > .section-head.in-view{ opacity:1; transform:none; }
+section.just-opened > .card{ animation:cardIn .5s var(--ease) both; }
+@keyframes cardIn{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:none;} }
+
+/* ---- back-to-top ---- */
+.to-top{ position:fixed; z-index:45; right:18px; bottom:18px; width:46px; height:46px; border:none; border-radius:50%;
+  background:var(--red); color:#fff; box-shadow:var(--sh-lg); cursor:pointer; display:flex; align-items:center; justify-content:center;
+  opacity:0; transform:translateY(14px) scale(.9); pointer-events:none;
+  transition:opacity .3s var(--ease), transform .3s var(--ease), background .2s; }
+.to-top.show{ opacity:1; transform:none; pointer-events:auto; }
+.to-top:hover{ background:var(--red-dark); transform:translateY(-2px); }
+.to-top:active{ transform:scale(.94); }
+.to-top svg{ width:22px; height:22px; }
+body.lang-ar .to-top{ right:auto; left:18px; }
+
+/* ---- footer ---- */
+footer{ border-top:1px solid var(--line); margin-top:42px; padding-top:26px; }
+
+/* ---- print ---- */
+@media print{
+  .filters, .drawer, .drawer-overlay, .map-wrap, .dist-chips, .map-search, .to-top, .scroll-progress{ display:none !important; }
+  section.collapsed > *:not(.section-head){ display:revert !important; }
+  section.collapsed .sec-chev{ display:none; }
+  .card{ break-inside:avoid; box-shadow:none; }
+  .hero{ padding:10px 0 16px; } body{ padding:0; }
+  .hero::before, .hero::after{ display:none; }
+}
+
+/* ---- reduced motion ---- */
+@media (prefers-reduced-motion: reduce){
+  .hero .eyebrow, .hero h1, .hero .sub, .hero .hero-stats, section.just-opened > .card{ animation:none !important; }
+  .card:hover{ transform:none; } .card:hover .card-icon{ transform:none; }
+  .reveal-on main > section > .section-head{ opacity:1 !important; transform:none !important; transition:none; }
+  .scroll-progress-fill{ transition:none; }
+}
+
 </style>
 </head>
 <body>
@@ -708,6 +833,7 @@ if (typeof L === "undefined") {
   <div class="eyebrow">Scandic Charlottenburg</div>
   <h1><span lang="de">Rund um Charlottenburg</span><span lang="en">Around Charlottenburg</span><span lang="es">Alrededor de Charlottenburg</span><span lang="sv">Runt Charlottenburg</span><span lang="no">Rundt Charlottenburg</span><span lang="fi">Charlottenburgin ympäristö</span><span lang="pl">Wokół Charlottenburga</span><span lang="ru">Вокруг Шарлоттенбурга</span><span lang="ar">حول شارلوتنبورغ</span></h1>
   <p class="sub"><span lang="de">Ausgewählte Cafés, Restaurants, Sehenswürdigkeiten, Familienaktivitäten und Theater.</span><span lang="en">Selected cafés, restaurants, sights, family activities and theatres.</span><span lang="es">Cafés, restaurantes, lugares de interés, actividades familiares y teatros seleccionados.</span><span lang="sv">Utvalda kaféer, restauranger, sevärdheter, familjeaktiviteter och teatrar.</span><span lang="no">Utvalgte kafeer, restauranter, severdigheter, familieaktiviteter og teatre.</span><span lang="fi">Valikoituja kahviloita, ravintoloita, nähtävyyksiä, perheaktiviteetteja ja teattereita.</span><span lang="pl">Wybrane kawiarnie, restauracje, atrakcje, atrakcje dla rodzin i teatry.</span><span lang="ru">Избранные кафе, рестораны, достопримечательности, семейный отдых и театры.</span><span lang="ar">مقاهٍ ومطاعم ومعالم وأنشطة عائلية ومسارح مختارة.</span></p>
+  <div class="hero-stats"><div class="hstat"><span class="hnum" data-to="88">88</span><span class="hlab"><span lang="de">Orte</span><span lang="en">places</span><span lang="es">lugares</span><span lang="sv">platser</span><span lang="no">steder</span><span lang="fi">paikkaa</span><span lang="pl">miejsc</span><span lang="ru">мест</span><span lang="ar">موقعاً</span></span></div><div class="hstat"><span class="hnum" data-to="9">9</span><span class="hlab"><span lang="de">Kategorien</span><span lang="en">categories</span><span lang="es">categorías</span><span lang="sv">kategorier</span><span lang="no">kategorier</span><span lang="fi">luokkaa</span><span lang="pl">kategorii</span><span lang="ru">категорий</span><span lang="ar">فئات</span></span></div></div>
 </div>
 
 <div class="filters">
@@ -2270,6 +2396,87 @@ if (typeof L === "undefined") {
     });
   })();
 
+</script>
+
+
+<script>
+/* Scandic enhancement — isolated, non-critical, never blocks core features */
+(function(){
+  try{
+    if(window.__scEnh) return; window.__scEnh = true;
+    var root = document.documentElement, body = document.body;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* progress bar */
+    var pb = document.createElement('div'); pb.className='scroll-progress';
+    var pf = document.createElement('div'); pf.className='scroll-progress-fill';
+    pb.appendChild(pf); body.appendChild(pb);
+
+    /* back-to-top */
+    var fab = document.createElement('button'); fab.className='to-top'; fab.type='button';
+    fab.setAttribute('aria-label','Nach oben');
+    fab.innerHTML="<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 14l6-6 6 6'/></svg>";
+    fab.addEventListener('click', function(){ window.scrollTo({top:0, behavior: reduce?'auto':'smooth'}); });
+    body.appendChild(fab);
+
+    var filters = document.querySelector('.filters');
+    function onScroll(){
+      var y = window.scrollY || root.scrollTop || 0;
+      var max = (root.scrollHeight - root.clientHeight) || 1;
+      pf.style.transform = 'scaleX(' + Math.min(1, Math.max(0, y/max)) + ')';
+      if(y > 420){ fab.classList.add('show'); } else { fab.classList.remove('show'); }
+      if(filters){ if(y > 6){ filters.classList.add('stuck'); } else { filters.classList.remove('stuck'); } }
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', onScroll, {passive:true});
+    onScroll();
+
+    /* count-up hero stats */
+    function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
+    document.querySelectorAll('.hnum[data-to]').forEach(function(el){
+      var to = parseInt(el.getAttribute('data-to'), 10) || 0;
+      if(reduce){ el.textContent = to; return; }
+      el.textContent = '0';
+      var start = null, dur = 1100;
+      function step(ts){
+        if(start === null) start = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        el.textContent = Math.round(to * easeOut(p));
+        if(p < 1){ requestAnimationFrame(step); } else { el.textContent = to; }
+      }
+      requestAnimationFrame(step);
+    });
+
+    /* reveal on scroll (section heads) + card stagger on open */
+    if(!reduce && 'IntersectionObserver' in window){
+      body.classList.add('reveal-on');
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); }
+        });
+      }, { threshold:0.06, rootMargin:'0px 0px -30px 0px' });
+      document.querySelectorAll('main > section > .section-head').forEach(function(el){ io.observe(el); });
+      /* safety: never leave a head hidden */
+      setTimeout(function(){
+        document.querySelectorAll('main > section > .section-head:not(.in-view)').forEach(function(el){ el.classList.add('in-view'); });
+      }, 2600);
+
+      document.querySelectorAll('.section-head[role="button"]').forEach(function(h){
+        h.addEventListener('click', function(){
+          requestAnimationFrame(function(){ requestAnimationFrame(function(){
+            var sec = h.parentNode;
+            if(sec && sec.classList && !sec.classList.contains('collapsed')){
+              sec.classList.remove('just-opened'); void sec.offsetWidth; sec.classList.add('just-opened');
+              setTimeout(function(){ sec.classList.remove('just-opened'); }, 900);
+            }
+          }); });
+        });
+      });
+    }
+  }catch(e){
+    try{ document.body.classList.remove('reveal-on'); }catch(_){}
+  }
+})();
 </script>
 
 </body>
