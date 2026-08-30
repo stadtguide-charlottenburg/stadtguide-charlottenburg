@@ -895,7 +895,7 @@ footer{ border-top:1px solid var(--line); margin-top:42px; padding-top:26px; }
       <div class="search-results" id="searchResults"></div>
     </div>
     <div class="dist-chips">
-      <button class="dist-chip active" data-cat="all"><span lang="de">Alle Bezirke</span><span lang="en">All districts</span><span lang="es">Todos los distritos</span><span lang="sv">Alla stadsdelar</span><span lang="no">Alle bydeler</span><span lang="fi">Kaikki kaupunginosat</span><span lang="pl">Wszystkie dzielnice</span><span lang="ru">Все районы</span><span lang="ar">جميع الأحياء</span></button>
+      <button class="dist-chip" data-cat="all"><span lang="de">Alle Bezirke</span><span lang="en">All districts</span><span lang="es">Todos los distritos</span><span lang="sv">Alla stadsdelar</span><span lang="no">Alle bydeler</span><span lang="fi">Kaikki kaupunginosat</span><span lang="pl">Wszystkie dzielnice</span><span lang="ru">Все районы</span><span lang="ar">جميع الأحياء</span></button>
       <button class="dist-chip chip-scandic" data-cat="scandic"><i style="background:#CD0822"></i><span lang="de">Scandic Hotels</span><span lang="en">Scandic Hotels</span><span lang="es">Hoteles Scandic</span><span lang="sv">Scandic Hotels</span><span lang="no">Scandic Hotels</span><span lang="fi">Scandic-hotellit</span><span lang="pl">Hotele Scandic</span><span lang="ru">Отели Scandic</span><span lang="ar">فنادق Scandic</span></button>
       <button class="dist-chip" data-cat="0"><i style="background:#C6862B"></i><span lang="de">Cafés</span><span lang="en">Cafés</span><span lang="es">Cafés</span><span lang="sv">Kaféer</span><span lang="no">Kafeer</span><span lang="fi">Kahvilat</span><span lang="pl">Kawiarnie</span><span lang="ru">Кафе</span><span lang="ar">المقاهي</span></button>
       <button class="dist-chip" data-cat="1"><i style="background:#CD0822"></i><span lang="de">Restaurants</span><span lang="en">Restaurants</span><span lang="es">Restaurantes</span><span lang="sv">Restauranger</span><span lang="no">Restauranter</span><span lang="fi">Ravintolat</span><span lang="pl">Restauracje</span><span lang="ru">Рестораны</span><span lang="ar">المطاعم</span></button>
@@ -2188,13 +2188,13 @@ footer{ border-top:1px solid var(--line); margin-top:42px; padding-top:26px; }
     var markers = [];
     POINTS.forEach(function(p){
       var m = L.circleMarker([p.la, p.lo], {
-        radius: 6,
+        radius: 4.5,
         color: '#FFFFFF',
-        weight: 2,
+        weight: 1.5,
         fillColor: COLORS[String(p.c)] || '#CD0822',
         fillOpacity: 0.95,
         renderer: ptsRenderer
-      }).addTo(map);
+      });
       m.bindPopup(function(){
         var cls = document.body.className.split(' ').find(function(c){ return c.indexOf('lang-') === 0; });
         var lg = cls ? cls.replace('lang-','') : 'de';
