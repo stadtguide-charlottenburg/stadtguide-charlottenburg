@@ -309,6 +309,9 @@ if (typeof L === "undefined") {
     transition: height 0.25s ease;
   }
   .map-wrap.expanded #berlinMap{ height: 78vh; }
+  .map-wrap:not(.expanded) #berlinMap{ touch-action: pan-y !important; }
+  .map-wrap.expanded #berlinMap{ touch-action: none !important; }
+  .map-wrap:not(.expanded) .leaflet-control-zoom{ display: none; }
   .map-expand{
     position: absolute;
     right: 10px;
@@ -2109,7 +2112,7 @@ footer{ border-top:1px solid var(--line); margin-top:42px; padding-top:26px; }
       return;
     }
     var HOTEL = [52.499549, 13.321511];
-    var map = L.map('berlinMap', { scrollWheelZoom: false }).setView(HOTEL, 13);
+    var map = L.map('berlinMap', { scrollWheelZoom: false, dragging: false, touchZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false }).setView(HOTEL, 13);
     var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap'
@@ -2309,9 +2312,9 @@ footer{ border-top:1px solid var(--line); margin-top:42px; padding-top:26px; }
       expandBtn.addEventListener('click', function(){
         wrap.classList.toggle('expanded');
         if(wrap.classList.contains('expanded')){
-          map.scrollWheelZoom.enable();
+          map.dragging.enable(); map.touchZoom.enable(); map.doubleClickZoom.enable(); map.scrollWheelZoom.enable(); map.keyboard.enable();
         } else {
-          map.scrollWheelZoom.disable();
+          map.dragging.disable(); map.touchZoom.disable(); map.doubleClickZoom.disable(); map.scrollWheelZoom.disable(); map.keyboard.disable();
         }
         setTimeout(function(){ map.invalidateSize(); }, 260);
       });
