@@ -312,6 +312,18 @@ if (typeof L === "undefined") {
   .map-wrap:not(.expanded) #berlinMap{ touch-action: pan-y !important; }
   .map-wrap.expanded #berlinMap{ touch-action: none !important; }
   .map-wrap:not(.expanded) .leaflet-control-zoom{ display: none; }
+  .map-hint{
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+    z-index: 3; display: flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.94); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+    border: 1.5px solid var(--line); border-radius: 100px; padding: 6px 13px;
+    box-shadow: 0 2px 10px rgba(43,36,32,0.14);
+    font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 700;
+    color: var(--red-dark); white-space: nowrap; cursor: pointer;
+    transition: opacity .25s ease, visibility .25s ease;
+  }
+  .map-hint svg{ width: 14px; height: 14px; flex: 0 0 auto; }
+  .map-wrap.expanded .map-hint{ opacity: 0; visibility: hidden; pointer-events: none; }
   .map-expand{
     position: absolute;
     right: 10px;
@@ -912,6 +924,7 @@ footer{ border-top:1px solid var(--line); margin-top:42px; padding-top:26px; }
     </div>
     <div class="map-wrap" id="mapWrap">
       <div id="berlinMap"></div>
+      <button class="map-hint" id="mapHint" type="button"><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M15 3h6v6'/><path d='M9 21H3v-6'/><path d='M21 3l-7 7'/><path d='M3 21l7-7'/></svg><span lang="de">Zum Bewegen vergrößern</span><span lang="en">Expand to move</span><span lang="es">Amplía para mover</span><span lang="sv">Förstora för att flytta</span><span lang="no">Forstørr for å flytte</span><span lang="fi">Suurenna liikuttaaksesi</span><span lang="pl">Powiększ, aby przesuwać</span><span lang="ru">Увеличьте для перемещения</span><span lang="ar">كبّر للتحريك</span></button>
       <button class="map-expand" id="mapExpand">
         <span class="me-open"><span lang="de">Karte vergrößern</span><span lang="en">Enlarge map</span><span lang="es">Ampliar mapa</span><span lang="sv">Förstora kartan</span><span lang="no">Forstørr kartet</span><span lang="fi">Suurenna karttaa</span><span lang="pl">Powiększ mapę</span><span lang="ru">Увеличить карту</span><span lang="ar">تكبير الخريطة</span></span><span class="me-close"><span lang="de">Karte verkleinern</span><span lang="en">Shrink map</span><span lang="es">Reducir mapa</span><span lang="sv">Förminska kartan</span><span lang="no">Forminsk kartet</span><span lang="fi">Pienennä karttaa</span><span lang="pl">Zmniejsz mapę</span><span lang="ru">Уменьшить карту</span><span lang="ar">تصغير الخريطة</span></span>
       </button>
@@ -2318,6 +2331,8 @@ footer{ border-top:1px solid var(--line); margin-top:42px; padding-top:26px; }
         }
         setTimeout(function(){ map.invalidateSize(); }, 260);
       });
+      var hint = document.getElementById('mapHint');
+      if(hint){ hint.addEventListener('click', function(){ expandBtn.click(); }); }
     }
 
     // Clicking "go to entry" closes the popup so the card is visible
